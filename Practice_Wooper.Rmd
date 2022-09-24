@@ -31,13 +31,13 @@ volume <- read.csv("https://raw.githubusercontent.com/JustinKringler/Project_Woo
 ```{r}
 type %>% 
   mutate(Date = as.Date(Date,"%m/%d/%Y")) %>%
-  filter(Date < '2001/01/01') %>%
   select(london_price_Detached,london_price_Semi.Detached,
          london_price_Terraced,london_price_Flat,Date) %>%
   tidyr::pivot_longer(!Date,names_to = "house_type", values_to = "price")%>%
   mutate(price = gsub(",","",price)) %>%
   ggplot(aes(x = Date, y = as.numeric(price), color = house_type))+
-  geom_point()
+  geom_line()+
+  geom_smooth()
   
     
  
@@ -45,7 +45,22 @@ type %>%
 
 ```
 
+```{r}
+type %>% 
+  mutate(Date = as.Date(Date,"%m/%d/%Y")) %>%
+  filter(Date >= '2005-01-01') %>%
+  select(uk_price_Detached,uk_price_Semi.Detached,
+         uk_price_Terraced,uk_price_Flat,Date) %>%
+  tidyr::pivot_longer(!Date,names_to = "house_type", values_to = "price")%>%
+  mutate(price = gsub(",","",price)) %>%
+  ggplot(aes(x = Date, y = as.numeric(price), color = house_type))+
+  geom_line()+
+  geom_smooth()
+```
 
+```{r}
+
+```
 
 
 
