@@ -1,0 +1,51 @@
+---
+title: "Practice Markdown"
+output: html_document
+date: '2022-09-24'
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Loading in Libraries
+```{r}
+library(tidyverse)
+library(dplyr)
+library(ggplot2)
+library(stringr)
+```
+
+# Loading in the data
+```{r}
+price <- read.csv("https://raw.githubusercontent.com/JustinKringler/Project_Wooper/main/data/ave_price.csv")
+
+index <- read.csv("https://raw.githubusercontent.com/JustinKringler/Project_Wooper/main/data/by_index.csv")
+
+type <- read.csv("https://raw.githubusercontent.com/JustinKringler/Project_Wooper/main/data/by_type.csv")
+
+volume <- read.csv("https://raw.githubusercontent.com/JustinKringler/Project_Wooper/main/data/sale_vol.csv")
+```
+
+# Practice Graph
+```{r}
+type %>% 
+  mutate(Date = as.Date(Date,"%m/%d/%Y")) %>%
+  filter(Date < '2001/01/01') %>%
+  select(london_price_Detached,london_price_Semi.Detached,
+         london_price_Terraced,london_price_Flat,Date) %>%
+  tidyr::pivot_longer(!Date,names_to = "house_type", values_to = "price")%>%
+  mutate(price = gsub(",","",price)) %>%
+  ggplot(aes(x = Date, y = as.numeric(price), color = house_type))+
+  geom_point()
+  
+    
+ 
+
+
+```
+
+
+
+
+
